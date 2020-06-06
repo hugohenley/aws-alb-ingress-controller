@@ -13,6 +13,14 @@ func Test_NameLB(t *testing.T) {
 	assert.Equal(t, nameGen.NameLB("namespace", "ingress"), "albprefix-namespace-ingres-1829")
 }
 
+func Test_NameLBWithLongName(t *testing.T) {
+	nameGen := NameGenerator{
+		ALBNamePrefix: "albprefixwithaverylongnameshouldgetreduced",
+	}
+
+	assert.Equal(t, nameGen.NameLB("namespace", "ingress"), "albprefixwithaverylongname-1829")
+}
+
 func Test_TG(t *testing.T) {
 	nameGen := NameGenerator{
 		ALBNamePrefix: "albprefix",
