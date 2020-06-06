@@ -47,6 +47,45 @@ func Test_TagTGGroup(t *testing.T) {
 	assert.Equal(t, gen.TagTGGroup("namespace", "ingress"), expected)
 }
 
+func Test_TagLBSG(t *testing.T) {
+	gen := TagGenerator{
+		ClusterName: "cluster",
+		DefaultTags: map[string]string{
+			"key": "value",
+		},
+	}
+	expected := map[string]string{
+		TagKeyIngressName:            "ingress",
+		TagKeyNamespace:              "namespace",
+		"ingress.k8s.aws/cluster":    "cluster",
+		"kubernetes.io/cluster-name": "cluster",
+		"ingress.k8s.aws/resource":   "ManagedLBSecurityGroup",
+		"ingress.k8s.aws/stack":      "namespace/ingress",
+		"key":                        "value",
+	}
+
+	assert.Equal(t, gen.TagLBSG("namespace", "ingress"), expected)
+}
+
+func Test_TagInstanceSG(t *testing.T) {
+	gen := TagGenerator{
+		ClusterName: "cluster",
+		DefaultTags: map[string]string{
+			"key": "value",
+		},
+	}
+	expected := map[string]string{
+		TagKeyIngressName:            "ingress",
+		TagKeyNamespace:              "namespace",
+		"ingress.k8s.aws/cluster":    "cluster",
+		"kubernetes.io/cluster-name": "cluster",
+		"ingress.k8s.aws/stack":      "namespace/ingress",
+		"key":                        "value",
+	}
+
+	assert.Equal(t, gen.TagInstanceSG("namespace", "ingress"), expected)
+}
+
 func Test_TagTG(t *testing.T) {
 	gen := TagGenerator{}
 	expected := map[string]string{
